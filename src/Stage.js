@@ -3,12 +3,12 @@ import * as Three from 'three';
 
 export default class Stage extends Component {
     constructor(props) {
-    super(props)
+        super(props)
 
-    this.start = this.start.bind(this)
-    this.stop = this.stop.bind(this)
-    this.animate = this.animate.bind(this)
-  }
+        this.start = this.start.bind(this)
+        this.stop = this.stop.bind(this)
+        this.animate = this.animate.bind(this)
+      }
 
   componentDidMount() {
     const width = this.mount.clientWidth
@@ -70,7 +70,7 @@ export default class Stage extends Component {
 render() {
     return (
     <div
-        style={{ width: '400px', height: '400px' }}
+        style={{ width: '100%', height: '400px' }}
         ref={(mount) => { this.mount = mount }}
       />
     );
