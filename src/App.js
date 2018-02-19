@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Form from  './Form';
+import Stage from './Stage';
 
 class App extends Component {
   render() {
@@ -9,6 +10,7 @@ class App extends Component {
         <header className="App-header">
           <h1>Sentiments</h1>
         </header>
+        <Stage/>
         <Form/>
       </div>
     );
