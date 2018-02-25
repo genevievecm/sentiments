@@ -1,20 +1,17 @@
 import React, { Component } from 'react';
 import * as Three from 'three';
-import Form from '../Form/Form';
 
 export default class Stage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-          score: {},
-          size: 25
+          size: this.props.size
         }
 
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
         this.animate = this.animate.bind(this);
-        this.handleSentiment = this.handleSentiment.bind(this);
       }
 
   componentDidMount() {
@@ -29,7 +26,7 @@ export default class Stage extends Component {
       1000
     );
     const renderer = new Three.WebGLRenderer({ antialias: true });
-    const geometry = new Three.TetrahedronGeometry(this.state.size, 2); // second param determins number of vertices
+    let geometry = new Three.TetrahedronGeometry(this.state.size, 2); // second param determins number of vertices
     const material = new Three.MeshPhongMaterial({
       shading:Three.FlatShading
     });
@@ -67,8 +64,11 @@ export default class Stage extends Component {
     this.mount.removeChild(this.renderer.domElement);
   }
 
-  handleSentiment(data) {
-    this.setState({score: data})
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.size !== nextProps.size) {
+      this.setState({ size: nextProps.size })
+    }
+    return true;
   }
 
   start() {
@@ -94,46 +94,10 @@ export default class Stage extends Component {
   }
 render() {
     return (
-    <div className="stage-container">
-        <div
-          style={{ width: '100%', height: '400px' }}
-          ref={(mount) => { this.mount = mount }}
-        />
-        <Form score={this.handleSentiment} />
-
-        {/* Displaying this for now to make sure my state is working alright*/}
-        <p>Current sentiment: {this.state.sentiment}</p>
-
-        {/* Displaying these scores for now so we can see the cool datas */}
-        <p>Comparative: {this.state.score.comparative}</p>
-        <p>Score: {this.state.score.score}</p>
-
-        <div>
-          <p>Positive Words:</p>
-          { this.state.score.positive ?
-              <ul>
-              {
-                  this.state.score.positive.map((word) => {
-                      return <li key={word}>{word}</li>;
-                  })
-              }
-              </ul>
-
-          : null }
-          </div>
-        <div>
-          <p>Negative Words:</p>
-          { this.state.score.negative ?
-              <ul>
-              {
-                  this.state.score.negative.map((word) => {
-                      return <li key={word}>{word}</li>;
-                  })
-              }
-              </ul>
-          : null }
-        </div>
-    </div>
+      <div
+        style={{ width: '100%', height: '400px' }}
+        ref={(mount) => { this.mount = mount }}
+      />
     );
   }
 }
