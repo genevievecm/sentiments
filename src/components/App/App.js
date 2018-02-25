@@ -9,7 +9,7 @@ class App extends Component {
 
         this.state = {
           score: {},
-          size: 25
+          size: 1
         }
 
         this.handleSentiment = this.handleSentiment.bind(this);
@@ -18,7 +18,7 @@ class App extends Component {
     handleSentiment(data) {
       this.setState({
         score: data,
-        size: this.state.size + (data.score * 10)
+        size: this.state.size + (data.score / 10)
       });
     }
 
