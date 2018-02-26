@@ -23,43 +23,20 @@ class App extends Component {
     }
 
     render() {
+      console.table(this.state.score);
+      console.log("size: " + this.state.size);
       return (
         <div className="App">
-          <Stage size={this.state.size}/>
-          <Form score={this.handleSentiment} />
-
-          {/* Displaying this for now to make sure my state is working alright*/}
-          <p>Current sentiment: {this.state.sentiment}</p>
-
-          {/* Displaying these scores for now so we can see the cool datas */}
-          <p>Comparative: {this.state.score.comparative}</p>
-          <p>Score: {this.state.score.score}</p>
-
-          <div>
-            <p>Positive Words:</p>
-            { this.state.score.positive ?
-                <ul>
-                {
-                    this.state.score.positive.map((word) => {
-                        return <li key={word}>{word}</li>;
-                    })
-                }
-                </ul>
-
-            : null }
-            </div>
-          <div>
-            <p>Negative Words:</p>
-            { this.state.score.negative ?
-                <ul>
-                {
-                    this.state.score.negative.map((word) => {
-                        return <li key={word}>{word}</li>;
-                    })
-                }
-                </ul>
-            : null }
-          </div>
+          <header className="header flex justify-center self-center">
+            <h1>Sentiments</h1>
+          </header>
+          <section>
+            <Stage size={this.state.size}/>
+            <Form score={this.handleSentiment} />
+          </section>
+          <footer className="footer flex justify-center self-center">
+              <p>Sentiments &copy; 2018</p>
+          </footer>
         </div>
       );
     }

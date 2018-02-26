@@ -1,15 +1,38 @@
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  text-align: center;
-  color: white;
+@import url('https://fonts.googleapis.com/css?family=Karla:400,400i');
+
+body {
+    color: grey;
+    font-family: 'Karla', sans-serif;
+    background: -moz-linear-gradient(left, rgba(244,242,255,1) 0%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(244,242,255,1) 0%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(244,242,255,1) 0%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f4f2ff', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
 }
 
-.App-title {
-  font-size: 1.5em;
+h1 {
+    font-weight: 100;
 }
 
-.App-intro {
-  font-size: large;
+.header {
+    font-style: italic;
+    text-transform: uppercase;
+    color: #bd91cc;
+}
+
+.footer {
+    color: #cfcfcf;
+}
+
+/*Flexbox utils*/
+
+.flex {
+  display: flex;
+}
+
+.justify-center {
+    justify-content: center
+}
+
+.self-center {
+    align-self: center
 }

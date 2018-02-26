@@ -32,8 +32,10 @@ export default class Form extends Component {
     render() {
         return (
             <div>
-                <input value={this.state.sentiment} onChange={this.updateSentiment} type="text"/>
-                <button onClick={this.submitForm.bind(this)}>Submit</button>
+                <div className="form flex justify-center self-center">
+                    <input autoFocus className="form-input" value={this.state.sentiment} onChange={this.updateSentiment} type="text"/>
+                    <button className="button" onClick={this.submitForm.bind(this)}>Submit</button>
+                </div>
             </div>
         );
     }
