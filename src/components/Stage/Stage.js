@@ -78,7 +78,7 @@ export default class Stage extends Component {
         this.orb.scale.set(size, size, size);
         this.geometry = new Three.BoxGeometry(30, 30, 30);
         // Set a new colour
-        this.material.color.setHex( 0xE838B0 );
+        this.material.color.setHex( Math.random() * 0xffffff );
     }
 
     start() {
