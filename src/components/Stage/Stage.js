@@ -25,16 +25,15 @@ export default class Stage extends Component {
         let geometry = new Three.TetrahedronGeometry(35, 2); // second param determins number of vertices
         const material = new Three.MeshPhongMaterial({
           flatShading:Three.FlatShading,
-          color: 0xbeb5f0
+          color: 0xbeb5f0,
+          morphTargets: true
         });
         const orb = new Three.Mesh(geometry, material);
 
         // lighting on orb
-        const ambient = new Three.AmbientLight(0xffffff, 0.5);
+        const ambient = new Three.AmbientLight(0xfca4c5, 0.5);
         const directional = new Three.DirectionalLight(0xE9F1F7, 1);
         scene.add(ambient, directional);
-
-
 
         // position or orb in scene
         orb.position.set(0, 0, -1000);
@@ -67,18 +66,30 @@ export default class Stage extends Component {
     componentWillReceiveProps(nextProps, nextState) {
         if (this.props.size !== nextProps.size) {
           // We need to pass the new props to the update function yasss
-          this.updateOrb(nextProps.size);
+          this.updateOrb(nextProps.size, nextProps.totalScore);
+          return true
+        } else {
+            return false;
         }
-        // Should prob return false if the props haven't changed but ~whatever
-        return true;
     }
 
-    updateOrb(size){
+    updateOrb(size, totalScore){
+
         // Set a new size
         this.orb.scale.set(size, size, size);
-        this.geometry = new Three.BoxGeometry(30, 30, 30);
-        // Set a new colour
-        this.material.color.setHex( 0xE838B0 );
+
+        if (totalScore > 5){
+            // Set a nice colour!
+            this.material.color.setHex( Math.random() * 0xffffff );
+        }
+        // Changes shape of tetrahedron
+        console.log(this.geometry);
+        //this.geometry.vertices.push(new Three.Vector3( Math.random(),1,0));
+        // this.geometry.vertices[0].set(Math.random(), 0.5, 0.5);
+        // this.geometry.vertices[1].set(0.5, Math.random(), -0.5);
+        // this.geometry.vertices[2].set(0.5, Math.random(), 0.5);
+        // this.geometry.vertices[3].set(0.5, -0.5, Math.random());
+        this.geometry.verticesNeedUpdate = true;
     }
 
     start() {
