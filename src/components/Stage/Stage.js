@@ -49,9 +49,12 @@ export default class Stage extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.size !== nextProps.size || this.props.totalScore !== nextProps.totalScore) {
           // We need to pass the new props to the update function yasss
-          this.updateOrb(nextProps.size, nextProps.totalScore);
+
+          var colour = Math.random() * 0xffffff;
+          this.updateOrb(nextProps.size, nextProps.totalScore, colour);
+          this.updateCube(nextProps.size, colour);
           console.log("New prop!");
-          return true
+          return true;
         } else {
             console.log("No changes, don't update");
             // Don't re-render the component if there aren't any new props coming in!
@@ -61,7 +64,6 @@ export default class Stage extends Component {
 
     initialOrb(){
         this.geometry = new Three.TetrahedronGeometry(35, 2); // second param determins number of vertices
-        console.log(this.geometry);
         this.material = new Three.MeshPhongMaterial({
           flatShading:Three.FlatShading,
           color: 0xbeb5f0,
@@ -73,42 +75,48 @@ export default class Stage extends Component {
         // position or orb in scene
         this.orb1.position.set(0, 0, -1000);
 
+        // Add the first orb
         this.scene.add(this.orb1);
     }
 
-    updateOrb(size, totalScore){
+    updateOrb(size, totalScore, colour){
         // Set a new size
         this.orb1.scale.set(size, size, size);
 
-        if (this.cube){
-            this.cube.scale.set(size/1.2, size/1.2, size/1.2);
-        } else {
-            this.addCube();
+        if (totalScore > 10 && !this.cube){
+            this.addCube(size);
         }
 
         if (totalScore > 5){
             // Set a nice colour!
-            var colour = Math.random() * 0xffffff;
             this.material.color.setHex( colour );
-            this.cubeMaterial.color.setHex( colour );
         }
         // Changes shape of tetrahedron
         this.geometry.verticesNeedUpdate = true;
     }
 
-    addCube(){
+    addCube(size){
         console.log('adding a cube!');
-        var geometry = new Three.BoxBufferGeometry( 60, 60, 60 );
+
+        // Creating another object and placing it inside the other one!!!
+        var geometry = new Three.BoxBufferGeometry( 26*size, 26*size, 26*size );
         this.cubeMaterial = new Three.MeshPhongMaterial({
-          flatShading:Three.FlatShading,
-          color: 0xbeb5f0,
-          morphTargets: true
+            flatShading:Three.FlatShading,
+            color: 0xbeb5f0,
+            morphTargets: true
         });
         this.cube = new Three.Mesh( geometry, this.cubeMaterial );
         this.cube.position.set(0, 0, -1000);
 
         this.scene.add(this.cube);
         this.animateCube();
+    }
+
+    updateCube(size, colour){
+        if (this.cube){
+            this.cube.scale.set(size/1.2, size/1.2, size/1.2);
+            this.cubeMaterial.color.setHex( colour );
+        }
     }
 
     start() {
