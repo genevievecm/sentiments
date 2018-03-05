@@ -19,7 +19,9 @@ export default class Form extends Component {
         e.preventDefault();
 
         // Reset form after submit
-        this.setState({ sentiment: '' });
+
+        // Commenting this out for testing
+        // this.setState({ sentiment: '' });
 
         // Analyze our user input with sentiment.js
         // and pass data to Stage (parent) component

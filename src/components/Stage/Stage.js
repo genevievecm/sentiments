@@ -8,51 +8,34 @@ export default class Stage extends Component {
         this.start = this.start.bind(this);
         this.stop = this.stop.bind(this);
         this.animate = this.animate.bind(this);
+        this.initialOrb = this.initialOrb.bind(this);
+        this.addCube = this.addCube.bind(this);
+        this.animateCube = this.animateCube.bind(this);
     }
 
     componentDidMount() {
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
 
-        const scene = new Three.Scene();
-        const camera = new Three.PerspectiveCamera(
+        // Global scene settings
+        this.scene = new Three.Scene();
+        this.camera = new Three.PerspectiveCamera(
           35,
           width / height,
           0.1,
           1000
         );
-        let renderer = new Three.WebGLRenderer({ antialias: true, alpha: true });
-        let geometry = new Three.TetrahedronGeometry(35, 2); // second param determins number of vertices
-        const material = new Three.MeshPhongMaterial({
-          flatShading:Three.FlatShading,
-          color: 0xbeb5f0,
-          morphTargets: true
-        });
-        const orb = new Three.Mesh(geometry, material);
 
-        // lighting on orb
+        this.renderer = new Three.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer.setClearColor( 0xffffff, 0 );
+        // height and width of scene
+        this.renderer.setSize(width, height);
         const ambient = new Three.AmbientLight(0xfca4c5, 0.5);
         const directional = new Three.DirectionalLight(0xE9F1F7, 1);
-        scene.add(ambient, directional);
+        this.scene.add(ambient, directional);
 
-        // position or orb in scene
-        orb.position.set(0, 0, -1000);
-
-        // Set clear bg
-        renderer.setClearColor( 0xffffff, 0 );
-
-        // height and width of scene
-        renderer.setSize(width, height);
-
-        // add orb to scene
-        scene.add(orb);
-
-        this.scene = scene;
-        this.geometry = geometry;
-        this.camera = camera;
-        this.renderer = renderer;
-        this.material = material;
-        this.orb = orb;
+        // Add first orb
+        this.initialOrb();
 
         this.mount.appendChild(this.renderer.domElement);
         this.start();
@@ -63,33 +46,77 @@ export default class Stage extends Component {
         this.mount.removeChild(this.renderer.domElement);
     }
 
-    componentWillReceiveProps(nextProps, nextState) {
-        if (this.props.size !== nextProps.size) {
+    componentWillReceiveProps(nextProps) {
+        if (this.props.size !== nextProps.size || this.props.totalScore !== nextProps.totalScore) {
           // We need to pass the new props to the update function yasss
-          this.updateOrb(nextProps.size, nextProps.totalScore);
-          return true
+
+          var colour = Math.random() * 0xffffff;
+          this.updateOrb(nextProps.size, nextProps.totalScore, colour);
+          this.updateCube(nextProps.size, colour);
+          console.log("New prop!");
+          return true;
         } else {
+            console.log("No changes, don't update");
+            // Don't re-render the component if there aren't any new props coming in!
             return false;
         }
     }
 
-    updateOrb(size, totalScore){
+    initialOrb(){
+        this.geometry = new Three.TetrahedronGeometry(35, 2); // second param determins number of vertices
+        this.material = new Three.MeshPhongMaterial({
+          flatShading:Three.FlatShading,
+          color: 0xbeb5f0,
+          morphTargets: true
+        });
 
+        this.orb1 = new Three.Mesh(this.geometry, this.material);
+
+        // position or orb in scene
+        this.orb1.position.set(0, 0, -1000);
+
+        // Add the first orb
+        this.scene.add(this.orb1);
+    }
+
+    updateOrb(size, totalScore, colour){
         // Set a new size
-        this.orb.scale.set(size, size, size);
+        this.orb1.scale.set(size, size, size);
+
+        if (totalScore > 10 && !this.cube){
+            this.addCube(size);
+        }
 
         if (totalScore > 5){
             // Set a nice colour!
-            this.material.color.setHex( Math.random() * 0xffffff );
+            this.material.color.setHex( colour );
         }
         // Changes shape of tetrahedron
-        console.log(this.geometry);
-        //this.geometry.vertices.push(new Three.Vector3( Math.random(),1,0));
-        // this.geometry.vertices[0].set(Math.random(), 0.5, 0.5);
-        // this.geometry.vertices[1].set(0.5, Math.random(), -0.5);
-        // this.geometry.vertices[2].set(0.5, Math.random(), 0.5);
-        // this.geometry.vertices[3].set(0.5, -0.5, Math.random());
         this.geometry.verticesNeedUpdate = true;
+    }
+
+    addCube(size){
+        console.log('adding a cube!');
+
+        // Creating another object and placing it inside the other one!!!
+        var geometry = new Three.BoxBufferGeometry( 26*size, 26*size, 26*size );
+        this.cubeMaterial = new Three.MeshPhongMaterial({
+            flatShading:Three.FlatShading,
+            color: 0xbeb5f0,
+            morphTargets: true
+        });
+        this.cube = new Three.Mesh( geometry, this.cubeMaterial );
+        this.cube.position.set(0, 0, -1000);
+
+        this.scene.add(this.cube);
+        this.animateCube();
+    }
+
+    updateCube(size, colour){
+        if (this.cube){
+            this.cube.scale.set(size/1.2, size/1.2, size/1.2);
+            this.cubeMaterial.color.setHex( colour );
+        }
     }
 
     start() {
@@ -103,11 +130,17 @@ export default class Stage extends Component {
     }
 
     animate() {
-      this.orb.rotation.x += 0.005;
-      this.orb.rotation.y += 0.005;
+        this.orb1.rotation.x += 0.005;
+        this.orb1.rotation.y += 0.005;
+        this.renderScene();
+        this.frameId = window.requestAnimationFrame(this.animate);
+    }
 
-      this.renderScene();
-      this.frameId = window.requestAnimationFrame(this.animate);
+    animateCube(){
+        this.cube.rotation.x += 0.009;
+        this.cube.rotation.y += 0.003;
+        this.renderScene();
+        this.frameId = window.requestAnimationFrame(this.animateCube);
     }
 
     renderScene() {
@@ -115,7 +148,6 @@ export default class Stage extends Component {
     }
 
     render() {
-        console.log(this.props.size);
         return (
         <div
             style={{ width: '100%', height: '400px' }}
