@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as Three from 'three';
+import TWEEN from 'tween.js';
 
 export default class Stage extends Component {
     constructor(props) {
@@ -12,12 +13,12 @@ export default class Stage extends Component {
         this.addToScene = this.addToScene.bind(this);
         this.startAnimate = this.startAnimate.bind(this);
         this.updateOrb = this.updateOrb.bind(this);
-        this.updateCube = this.updateCube.bind(this);
     }
 
     componentDidMount() {
         const width = this.mount.clientWidth;
         const height = this.mount.clientHeight;
+        console.log(TWEEN);
 
         // Set scene and camera
         this.scene = new Three.Scene();
@@ -69,7 +70,7 @@ export default class Stage extends Component {
                     morphTargets: true
                 })
             });
-            cube.position.x = 30;
+            // cube.position.x = 30;
             this.orb.add(cube);
             console.log(this.orb.children);
 
@@ -89,31 +90,26 @@ export default class Stage extends Component {
     }
 
     updateOrb(size, colour, totalScore){
-        // Set a new size
-        this.orb.scale.set(size, size, size);
+        // animate orb growth over 500 milliseconds
+        const scale = new TWEEN.Tween( this.orb.scale )
+                        .to({x: size, y: size, z: size}, 500)
+                        .start();
+
+        const shade = new TWEEN.Tween( this.orb.material.color, 2, {
+                            r: this.orb.material.color.r,
+                            g: this.orb.material.color.g,
+                            b: this.orb.material.color.b
+                        });
+
+        console.log(this.orb.material)
+
 
         if (totalScore > 5){
             // Set a nice colour!
-            this.orb.material.color.setHex( colour );
+            // this.orb.material.color.setHex( colour );
         }
 
-        if (totalScore > 10){
-            this.addToScene({
-                geometry: new Three.BoxGeometry( 100, 100, 100 ),
-                material: new Three.MeshPhongMaterial({
-                    flatShading: Three.FlatShading,
-                    color: colour,
-                    morphTargets: true
-                })
-            });
-        }
-    }
-
-    updateCube(size, colour){
-        if (this.cube){
-            this.cube.scale.set(size/1.2, size/1.2, size/1.2);
-            this.cubeMaterial.color.setHex( colour );
-        }
+        return ( scale, shade );
     }
 
     startAnimate() {
@@ -122,6 +118,8 @@ export default class Stage extends Component {
         // rotation rate for orb
         this.orb.rotation.x += 0.005;
         this.orb.rotation.x += 0.005;
+
+        TWEEN.update();
 
         this.renderer.render(this.scene, this.camera);
     }
