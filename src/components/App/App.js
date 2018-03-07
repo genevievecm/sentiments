@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Form from  '../Form/Form';
 import Stage from '../Stage/Stage';
+import Form from  '../Form/Form';
 
 class App extends Component {
 

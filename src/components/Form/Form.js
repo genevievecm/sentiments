@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './Form.css';
+import Tooltip from '../Tooltip/Tooltip';
 import Sentiment from 'sentiment';
+import './Form.css';
 
 export default class Form extends Component {
 
@@ -39,8 +40,22 @@ export default class Form extends Component {
         return (
             <div>
                 <div className="form flex justify-center self-center">
-                    <input autoFocus className="form-input" value={this.state.sentiment} onChange={this.updateSentiment} type="text"/>
-                    <button className="button" onClick={this.submitForm.bind(this)}>Submit</button>
+                    <div className="tooltip-wrapper">
+                        {!this.state.totalSentiments.length &&
+                            <Tooltip message={'Say something nice about yourself...'} />}
+                        <input
+                            autoFocus
+                            className="form-input"
+                            value={this.state.sentiment}
+                            onChange={this.updateSentiment} 
+                            type="text"
+                        />
+                    </div>
+                    <button
+                        className="button"
+                        onClick={this.submitForm.bind(this)}>
+                        Submit
+                    </button>
                 </div>
                 { this.state.totalSentiments.length ?
                     <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
