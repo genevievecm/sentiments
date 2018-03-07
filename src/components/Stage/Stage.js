@@ -76,7 +76,7 @@ export default class Stage extends Component {
     }
 
     addShapes(colour){
-        let particles = new Three.Group();
+        let shapes = new Three.Group();
 
         // Randomize vertices n stuff
         const geometry = new Three.TetrahedronGeometry(
@@ -95,9 +95,9 @@ export default class Stage extends Component {
             shape.position.set((Math.random() - 0.5) * 80,
                               (Math.random() - 0.5) * 80,
                               (Math.random() - 0.5) * 80);
-            particles.add(shape);
+            shapes.add(shape);
         }
-        this.orb.add(particles);
+        this.orb.add(shapes);
     }
 
     addCube(colour, size){
