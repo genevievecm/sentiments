@@ -11,6 +11,7 @@ export default class Form extends Component {
         // which we're calling a sentiment!
         this.state = {
             sentiment: '',
+            totalSentiments: []
         };
         this.updateSentiment = this.updateSentiment.bind(this);
     }
@@ -18,11 +19,11 @@ export default class Form extends Component {
     submitForm(e){
         e.preventDefault();
 
-        // Reset form after submit
-
-        // Commenting this out for testing
+        // Reset form after submit: Commenting this out for testing
         // this.setState({ sentiment: '' });
 
+        // Compile an array of all sentiments
+        this.setState({ totalSentiments: [...this.state.totalSentiments, this.state.sentiment ] });
         // Analyze our user input with sentiment.js
         // and pass data to Stage (parent) component
         this.props.score(Sentiment(this.state.sentiment))
@@ -41,6 +42,17 @@ export default class Form extends Component {
                     <input autoFocus className="form-input" value={this.state.sentiment} onChange={this.updateSentiment} type="text"/>
                     <button className="button" onClick={this.submitForm.bind(this)}>Submit</button>
                 </div>
+                { this.state.totalSentiments.length ?
+                    <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
+                : null }
+
+                {/*<div className="sentiment-list">
+                    {
+                       this.state.totalSentiments.map((sentiment, i) => {
+                           return <p key={i}>{sentiment}</p>;
+                       })
+                    }
+                </div>*/}
             </div>
         );
     }
