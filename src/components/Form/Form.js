@@ -46,13 +46,13 @@ export default class Form extends Component {
                     <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
                 : null }
 
-                <div className="sentiment-list">
+                {/*<div className="sentiment-list">
                     {
                        this.state.totalSentiments.map((sentiment, i) => {
                            return <p key={i}>{sentiment}</p>;
                        })
                     }
-                </div>
+                </div>*/}
             </div>
         );
     }
