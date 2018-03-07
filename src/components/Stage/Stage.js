@@ -62,18 +62,10 @@ export default class Stage extends Component {
         if (this.props.totalScore !== nextProps.totalScore) {
             // We need to pass the new props to the update function yasss
             const colour = Math.random() * 0xffffff;
-            const cube = this.addToScene({
-                geometry: new Three.BoxGeometry( 50, 50, 50 ),
-                material: new Three.MeshPhongMaterial({
-                    flatShading: Three.FlatShading,
-                    color: colour,
-                    morphTargets: true
-                })
-            });
-            // cube.position.x = 30;
-            this.orb.add(cube);
             console.log(this.orb.children);
 
+            this.addCube(colour, nextProps.size);
+            this.addShapes(colour);
             this.updateOrb(nextProps.size, colour, nextProps.totalScore);
 
             return true;
@@ -81,6 +73,44 @@ export default class Stage extends Component {
             // Don't re-render the component if there aren't any new props coming in!
             return false;
         }
+    }
+
+    addShapes(colour){
+        let particles = new Three.Group();
+
+        // Randomize vertices n stuff
+        const geometry = new Three.TetrahedronGeometry(
+            Math.floor(Math.random()*(5-1+1)+1),
+            Math.floor(Math.random()*(2-1+1)+1)
+        );
+
+        // Add like 50 shapes around the orb
+        for (let i = 0; i < 50; i ++) {
+            const material = new Three.MeshPhongMaterial({
+              color: colour,
+              flatShading: Three.FlatShading
+            });
+            let shape = new Three.Mesh(geometry, material);
+            // Hover around the orb!
+            shape.position.set((Math.random() - 0.5) * 80,
+                              (Math.random() - 0.5) * 80,
+                              (Math.random() - 0.5) * 80);
+            particles.add(shape);
+        }
+        this.orb.add(particles);
+    }
+
+    addCube(colour, size){
+        console.log(size);
+        const cube = this.addToScene({
+            geometry: new Three.BoxGeometry( 50, 50, 50 ),
+            material: new Three.MeshPhongMaterial({
+                flatShading: Three.FlatShading,
+                color: colour,
+                morphTargets: true
+            })
+        });
+        this.orb.add(cube);
     }
 
     addToScene({ geometry, material }) {
@@ -102,12 +132,7 @@ export default class Stage extends Component {
                         });
 
         console.log(this.orb.material)
-
-
-        if (totalScore > 5){
-            // Set a nice colour!
-            // this.orb.material.color.setHex( colour );
-        }
+        //this.orb.material.color.setHex( colour );
 
         return ( scale, shade );
     }
