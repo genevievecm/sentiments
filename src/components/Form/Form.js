@@ -24,7 +24,6 @@ export default class Form extends Component {
 
         // Compile an array of all sentiments
         this.setState({ totalSentiments: [...this.state.totalSentiments, this.state.sentiment ] });
-
         // Analyze our user input with sentiment.js
         // and pass data to Stage (parent) component
         this.props.score(Sentiment(this.state.sentiment))
@@ -46,6 +45,14 @@ export default class Form extends Component {
                 { this.state.totalSentiments.length ?
                     <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
                 : null }
+
+                <div className="sentiment-list">
+                    {
+                       this.state.totalSentiments.map((sentiment, i) => {
+                           return <p key={i}>{sentiment}</p>;
+                       })
+                    }
+                </div>
             </div>
         );
     }
