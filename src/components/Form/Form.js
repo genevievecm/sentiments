@@ -39,7 +39,7 @@ export default class Form extends Component {
     render() {
         return (
             <div>
-                <div className="form flex justify-center self-center">
+                <div className="form">
                     <div className="tooltip-wrapper">
                         {!this.state.totalSentiments.length &&
                             <Tooltip message={'Say something nice about yourself...'} />}
@@ -47,7 +47,7 @@ export default class Form extends Component {
                             autoFocus
                             className="form-input"
                             value={this.state.sentiment}
-                            onChange={this.updateSentiment} 
+                            onChange={this.updateSentiment}
                             type="text"
                         />
                     </div>

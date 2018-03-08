@@ -47,8 +47,8 @@ export default class Stage extends Component {
             geometry: new Three.TetrahedronGeometry(this.state.size, 1),
             material: new Three.MeshPhongMaterial({
                 flatShading:Three.FlatShading,
-                color: 0xbeb5f0,
-                morphTargets: true,
+                color: 0xBCBCBC,
+                morphTargets: true
             })
         });
 
@@ -61,14 +61,26 @@ export default class Stage extends Component {
     componentWillReceiveProps(nextProps) {
         if (this.props.totalScore !== nextProps.totalScore) {
             // We need to pass the new props to the update function yasss
-            const colour = Math.random() * 0xffffff;
-            console.log(this.orb.children);
+            let colour = 0xE2B3BE;
 
-            this.addCube(colour, nextProps.size);
-            this.addShapes(colour);
+            // Just testing what it looks like to change the colour intentionally..
+            // And add in elements at certain "totalSize" breakpoints
+
+            if (nextProps.totalScore > 5 && nextProps.totalScore < 10){
+                this.addCube(colour, nextProps.size);
+            }
+            if (nextProps.totalScore > 10 && nextProps.totalScore < 30){
+                colour = 0xE0A9D4;
+                this.addShapes(colour);
+            }
+            if (nextProps.totalScore > 30 && nextProps.totalScore < 40){
+                colour = 0xB49AE5;
+                this.addShapes(colour);
+            }
+
             this.updateOrb(nextProps.size, colour, nextProps.totalScore);
-
             return true;
+
         } else {
             // Don't re-render the component if there aren't any new props coming in!
             return false;
@@ -101,15 +113,17 @@ export default class Stage extends Component {
     }
 
     addCube(colour, size){
-        console.log(size);
         const cube = this.addToScene({
-            geometry: new Three.BoxGeometry( 50, 50, 50 ),
+            geometry: new Three.BoxGeometry( 10, 10, 10 ),
             material: new Three.MeshPhongMaterial({
                 flatShading: Three.FlatShading,
                 color: colour,
                 morphTargets: true
             })
         });
+        cube.position.set((Math.random() - 0.5) * 80,
+                              (Math.random() - 0.5) * 80,
+                              (Math.random() - 0.5) * 80);
         this.orb.add(cube);
     }
 
@@ -120,6 +134,11 @@ export default class Stage extends Component {
     }
 
     updateOrb(size, colour, totalScore){
+        console.log(this.orb);
+        // Cap the size of the orb at this size ish
+        if (size >= 5.5) {
+            size = 5.6;
+        }
         // animate orb growth over 500 milliseconds
         const scale = new TWEEN.Tween( this.orb.scale )
                         .to({x: size, y: size, z: size}, 500)
@@ -131,18 +150,15 @@ export default class Stage extends Component {
                             b: this.orb.material.color.b
                         });
 
-        console.log(this.orb.material)
-        //this.orb.material.color.setHex( colour );
-
-        return ( scale, shade );
+        this.orb.material.color.setHex( colour );
     }
 
     startAnimate() {
         requestAnimationFrame(this.startAnimate);
 
         // rotation rate for orb
-        this.orb.rotation.x += 0.005;
-        this.orb.rotation.x += 0.005;
+        this.orb.rotation.x += 0.004;
+        this.orb.rotation.x += 0.004;
 
         TWEEN.update();
 
