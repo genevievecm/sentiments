@@ -11,6 +11,9 @@
     top: -60px;
     border-radius: 4px;
     text-align: center;
+    left: 0;
+    right: 0;
+    margin: auto;
 
     animation-name: slideUp;
     -webkit-animation-name: slideUp;
@@ -38,6 +41,7 @@
     right: 0;
 }
 
+/* http://www.justinaguilar.com/animations/ */
 @keyframes slideUp {
     0% {
         transform: translateY(100%);
@@ -77,6 +81,49 @@
     }
     100% {
         -webkit-transform: translateY(0%);
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.fade {
+    display: block;
+
+    animation-name: fadeAway;
+    -webkit-animation-name: fadeAway;
+
+    animation-duration: 0.75s;
+    -webkit-animation-duration: 0.75s;
+
+    animation-timing-function: ease;
+    -webkit-animation-timing-function: ease;
+}
+
+@keyframes fadeAway {
+    0% {
+        top: -60px;
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        top: -120px;
+        opacity: 0;
+    }
+    100% {
+        display: none;
+    }
+}
+
+@-webkit-keyframes fadeAway {
+    0% {
+        top: -60px;
+        opacity: 1;
+    }
+    100% {
+        top: -120px;
+        opacity: 0;
     }
 }
 
