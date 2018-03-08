@@ -12,7 +12,8 @@ export default class Form extends Component {
         // which we're calling a sentiment!
         this.state = {
             sentiment: '',
-            totalSentiments: []
+            totalSentiments: [],
+            tooltip: true,
         };
         this.updateSentiment = this.updateSentiment.bind(this);
     }
@@ -24,10 +25,14 @@ export default class Form extends Component {
         // this.setState({ sentiment: '' });
 
         // Compile an array of all sentiments
-        this.setState({ totalSentiments: [...this.state.totalSentiments, this.state.sentiment ] });
+        // if form is submitted, tooltip is no longer needed
+        this.setState({
+            totalSentiments: [...this.state.totalSentiments, this.state.sentiment ],
+            tooltip: false
+        });
         // Analyze our user input with sentiment.js
         // and pass data to Stage (parent) component
-        this.props.score(Sentiment(this.state.sentiment))
+        this.props.score(Sentiment(this.state.sentiment));
     }
 
     updateSentiment(e){
@@ -41,8 +46,10 @@ export default class Form extends Component {
             <div>
                 <div className="form">
                     <div className="tooltip-wrapper">
-                        {!this.state.totalSentiments.length &&
-                            <Tooltip message={'Say something nice about yourself...'} />}
+                        <Tooltip
+                            display={this.state.tooltip}
+                            message={'Say something nice about yourself...'}
+                        />
                         <input
                             autoFocus
                             className="form-input"
@@ -53,7 +60,8 @@ export default class Form extends Component {
                     </div>
                     <button
                         className="button"
-                        onClick={this.submitForm.bind(this)}>
+                        onClick={this.submitForm.bind(this)}
+                        disabled={!this.state.sentiment}>
                         Submit
                     </button>
                 </div>
