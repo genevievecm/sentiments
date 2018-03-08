@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Karla:400,400i');
 
 body {
+    font-size:18px;
     color: grey;
     font-family: 'Karla', sans-serif;
     background: -moz-linear-gradient(left, rgba(244,242,255,1) 0%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
