@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Karla:400,400i');
 
 .form {
-    margin: 3rem 0;
+    margin: 3rem 1rem;
     display: flex;
     justify-content: center;
     align-self: center;
@@ -10,7 +10,7 @@
 .form-input {
     outline: none;
     border: none;
-    padding: 1rem 2rem;
+    padding: 1rem 0rem;
     background: transparent;
     font-size: 3rem;
     border-bottom: 4px solid #e9abb6;
@@ -38,7 +38,6 @@
 
 .button:focus,
 .button:hover {
-
     background-color: #bd91cc;
     transition: background-color .15s linear;
 }

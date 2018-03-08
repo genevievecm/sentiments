@@ -80,6 +80,12 @@
     }
 }
 
+@media only screen and (max-width: 480px) {
+    .tooltip {
+        top: -90px;
+    }
+}
+
 @media only screen and (max-width: 768px) {
     .tooltip-wrapper {
         display: flex;
