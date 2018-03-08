@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css?family=Karla:400,400i');
+
+.form {
+    margin: 3rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.form-input {
+    outline: none;
+    border: none;
+    padding: 1rem 0rem;
+    background: transparent;
+    font-size: 3rem;
+    border-bottom: 4px solid #e9abb6;
+    margin-right: 16px;
+    color: #e9abb6;
+    font-family: 'Karla', sans-serif;
+}
+
+.button {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 1rem 2rem;
+    background: #e9abb6;
+    font-size: 3rem;
+    color: #fff;
+    font-family: 'Karla', sans-serif;
+    font-style: italic;
+    text-transform: uppercase;
+    font-weight: lighter;
+    box-sizing: border-box;
+    border: 5px solid transparent;
+}
+
+.button:focus,
+.button:hover {
+    background-color: #bd91cc;
+    transition: background-color .15s linear;
+}
+
+.sentiment-list {
+    color: #bd91cc;
+    font-size: 1.5rem;
+    font-weight: light;
+    opacity: .4;
+    position: absolute;
+    top: 0;
+    margin: 20px;
+}
+
+@media only screen and (max-width: 768px) {
+    .form {
+        display: block;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .button,
+    .form-input {
+        margin: 1rem 0;
+        padding: 0.5rem 1rem;
+        font-size: 1.7rem;
+    }
+}
