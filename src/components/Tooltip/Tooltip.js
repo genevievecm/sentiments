@@ -12,7 +12,7 @@ export default class Tooltip extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.display === false) {
+        if (this.props.display !== nextProps.display) {
             this.setState({ display: 'fade' });
 
             //hide tooltip after fade out animation is complete
