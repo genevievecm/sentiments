@@ -44,7 +44,7 @@ export default class Form extends Component {
     render() {
         return (
             <div>
-                <div className="form">
+                <form className="form">
                     <div className="tooltip-wrapper">
                         <Tooltip
                             display={this.state.tooltip}
@@ -64,7 +64,7 @@ export default class Form extends Component {
                         disabled={!this.state.sentiment}>
                         Submit
                     </button>
-                </div>
+                </form>
                 { this.state.totalSentiments.length ?
                     <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
                 : null }
