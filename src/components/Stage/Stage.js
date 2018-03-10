@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import * as Three from 'three';
 import TWEEN from 'tween.js';
 
+const randomColours = [0x51BFF2, 0xF2BF51, 0xe1f7d5, 0xffbdbd, 0xf1cbff]
+const level1 = [0xE0A9D4, 0x91CCDF, 0xFBE7BA];
+const level2 = [0xEA41C5, 0x04FFE9, 0xE9FF17];
+
 export default class Stage extends Component {
     constructor(props) {
         super(props);
@@ -34,7 +38,7 @@ export default class Stage extends Component {
         // renderer instance
         this.renderer = new Three.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(width, height); // height and width of scene
-        
+
         //resize
         window.addEventListener('resize', this.resize, false);
 
@@ -62,37 +66,62 @@ export default class Stage extends Component {
         this.startAnimate();
     }
 
+    updateOrbByRange(size, totalScore){
+        // We need to pass the new props to the update function yasss
+        let colour = 0xE2B3BE;
+        let colourArray = [];
+
+        // Just testing what it looks like to change the colour intentionally..
+        // And add in elements at certain "totalSize" breakpoints
+
+        if (totalScore > 5 && totalScore < 10){
+            this.addCube(colour, size);
+        }
+        if (totalScore > 10 && totalScore < 30){
+            colour = randomColour(level1);
+            this.addShapes(colour);
+        }
+        if (totalScore > 30){
+            colour = randomColour(level2);
+            this.addShapes(colour);
+        }
+        this.updateOrb(size, colour, totalScore);
+    }
+
+    updateOrbByScore(size, totalScore){
+        let colour;
+        switch(totalScore) {
+            case 12:
+                colour = randomColour(randomColours);
+                this.addCube(colour, size);
+                break;
+            case 18:
+                 colour = randomColour(randomColours);
+                this.addCube(colour, size);
+                break;
+            case 28:
+                colour = randomColour(randomColours);
+                this.addCube(colour, size);
+                break;
+            case 34:
+                colour = randomColour(randomColours);
+                this.addCube(colour, size);
+                break;
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if (this.props.totalScore !== nextProps.totalScore) {
-            // We need to pass the new props to the update function yasss
-            let colour = 0xE2B3BE;
-
-            // Just testing what it looks like to change the colour intentionally..
-            // And add in elements at certain "totalSize" breakpoints
-
-            if (nextProps.totalScore > 5 && nextProps.totalScore < 10){
-                this.addCube(colour, nextProps.size);
-            }
-            if (nextProps.totalScore > 10 && nextProps.totalScore < 30){
-                colour = 0xE0A9D4;
-                this.addShapes(colour);
-            }
-            if (nextProps.totalScore > 30 && nextProps.totalScore < 40){
-                colour = 0xB49AE5;
-                this.addShapes(colour);
-            }
-
-            this.updateOrb(nextProps.size, colour, nextProps.totalScore);
+            this.updateOrbByRange(nextProps.size, nextProps.totalScore);
+            this.updateOrbByScore(nextProps.size, nextProps.totalScore);
             return true;
-
         } else {
             // Don't re-render the component if there aren't any new props coming in!
             return false;
         }
     }
-    
+
     resize(){
-        
         //-------*********************************------//
         //NEED TO UPDATE THIS TO CALCULATE HEIGHT WE NEED
         //-------*********************************------//
@@ -100,13 +129,13 @@ export default class Stage extends Component {
             width: window.innerWidth,
             height: window.innerHeight / 2
         }
-        
+
         //reset renderer size
         this.renderer.setSize(newSize.width , newSize.height);
-        
+
         this.camera.aspect = newSize.width / newSize.height;
         this.camera.updateProjectionMatrix();
-        
+
     }
 
     addShapes(colour){
@@ -143,9 +172,11 @@ export default class Stage extends Component {
                 morphTargets: true
             })
         });
-        cube.position.set((Math.random() - 0.5) * 80,
-                              (Math.random() - 0.5) * 80,
-                              (Math.random() - 0.5) * 80);
+        cube.position.set(
+            (Math.random() - 0.5) * 80,
+            (Math.random() - 0.5) * 80,
+            (Math.random() - 0.5) * 80
+        );
         this.orb.add(cube);
     }
 
@@ -167,7 +198,7 @@ export default class Stage extends Component {
                         .start();
 
         const shade = new TWEEN.Tween( this.orb.material.color, 2, {
-                            r: this.orb.material.color.r,
+                             r: this.orb.material.color.r,
                             g: this.orb.material.color.g,
                             b: this.orb.material.color.b
                         });
@@ -195,4 +226,8 @@ export default class Stage extends Component {
          />
         );
     }
+}
+
+function randomColour(array){
+    return array[Math.floor(Math.random() * array.length)];
 }

@@ -42,15 +42,14 @@
     transition: background-color .15s linear;
 }
 
-.sentiment-list {
+/*.sentiment-list {
     color: #bd91cc;
+    flex-direction: column;
     font-size: 1.5rem;
     font-weight: light;
     opacity: .4;
-    position: absolute;
-    top: 0;
     margin: 20px;
-}
+}*/
 
 @media only screen and (max-width: 768px) {
     .form {
