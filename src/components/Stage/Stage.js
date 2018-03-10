@@ -13,12 +13,13 @@ export default class Stage extends Component {
         this.addToScene = this.addToScene.bind(this);
         this.startAnimate = this.startAnimate.bind(this);
         this.updateOrb = this.updateOrb.bind(this);
+        this.resize = this.resize.bind(this);
     }
 
     componentDidMount() {
-        const width = this.mount.clientWidth;
-        const height = this.mount.clientHeight;
-        console.log(TWEEN);
+        const width = window.innerWidth;
+        const height = window.innerHeight / 2;
+//        console.log(TWEEN);
 
         // Set scene and camera
         this.scene = new Three.Scene();
@@ -33,6 +34,9 @@ export default class Stage extends Component {
         // renderer instance
         this.renderer = new Three.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer.setSize(width, height); // height and width of scene
+        
+        //resize
+        window.addEventListener('resize', this.resize, false);
 
         // lighting
         const ambient = new Three.AmbientLight(0xfca4c5, 0.5);
@@ -85,6 +89,24 @@ export default class Stage extends Component {
             // Don't re-render the component if there aren't any new props coming in!
             return false;
         }
+    }
+    
+    resize(){
+        
+        //-------*********************************------//
+        //NEED TO UPDATE THIS TO CALCULATE HEIGHT WE NEED
+        //-------*********************************------//
+        const newSize = {
+            width: window.innerWidth,
+            height: window.innerHeight / 2
+        }
+        
+        //reset renderer size
+        this.renderer.setSize(newSize.width , newSize.height);
+        
+        this.camera.aspect = newSize.width / newSize.height;
+        this.camera.updateProjectionMatrix();
+        
     }
 
     addShapes(colour){
