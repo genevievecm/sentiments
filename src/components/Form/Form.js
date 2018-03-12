@@ -21,12 +21,10 @@ export default class Form extends Component {
     submitForm(e){
         e.preventDefault();
 
-        // Reset form after submit: Commenting this out for testing
-        // this.setState({ sentiment: '' });
-
         // Compile an array of all sentiments
         // if form is submitted, tooltip is no longer needed
         this.setState({
+            sentiment: '', // reset form
             totalSentiments: [...this.state.totalSentiments, this.state.sentiment ],
             tooltip: false
         });
@@ -69,14 +67,6 @@ export default class Form extends Component {
                     <div className="flex justify-center self-center">{this.state.totalSentiments.length} total { this.state.totalSentiments.length === 1 ? 'sentiment' : 'sentiments' }</div>
                 : null }
 
-
-               {/* <div className="flex justify-center self-center sentiment-list">
-                    {
-                       this.state.totalSentiments.map((sentiment, i) => {
-                           return <p key={i}>{sentiment}</p>;
-                       })
-                    }
-                </div>*/}
             </div>
         );
     }
