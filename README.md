@@ -9,4 +9,4 @@ npm run start
 ## What is Sentiments?
 Sentiments is a web application that allows users to practice self-love and aims to demonstrate how positive thinking can impact mental health.
 
-This is an app submission for the International Women's Hackathon presented by Hackerearth (https://www.hackerearth.com/sprints/international-women-hackathon-2018/).
+This is an app submission for the [International Women's Hackathon presented by Hackereart (https://www.hackerearth.com/sprints/international-women-hackathon-2018/).
