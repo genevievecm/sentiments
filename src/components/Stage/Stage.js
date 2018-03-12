@@ -23,7 +23,6 @@ export default class Stage extends Component {
     componentDidMount() {
         const width = window.innerWidth;
         const height = window.innerHeight / 2;
-//        console.log(TWEEN);
 
         // Set scene and camera
         this.scene = new Three.Scene();
@@ -69,7 +68,6 @@ export default class Stage extends Component {
     updateOrbByRange(size, totalScore){
         // We need to pass the new props to the update function yasss
         let colour = 0xE2B3BE;
-        let colourArray = [];
 
         // Just testing what it looks like to change the colour intentionally..
         // And add in elements at certain "totalSize" breakpoints
@@ -107,6 +105,10 @@ export default class Stage extends Component {
                 colour = randomColour(randomColours);
                 this.addCube(colour, size);
                 break;
+            default :
+                colour = 0xE2B3BE;
+                this.addCube(colour, size);
+                break;
         }
     }
 
@@ -122,9 +124,6 @@ export default class Stage extends Component {
     }
 
     resize(){
-        //-------*********************************------//
-        //NEED TO UPDATE THIS TO CALCULATE HEIGHT WE NEED
-        //-------*********************************------//
         const newSize = {
             width: window.innerWidth,
             height: window.innerHeight / 2
@@ -187,7 +186,6 @@ export default class Stage extends Component {
     }
 
     updateOrb(size, colour, totalScore){
-        console.log(this.orb);
         // Cap the size of the orb at this size ish
         if (size >= 5.5) {
             size = 5.6;
@@ -197,13 +195,9 @@ export default class Stage extends Component {
                         .to({x: size, y: size, z: size}, 500)
                         .start();
 
-        const shade = new TWEEN.Tween( this.orb.material.color, 2, {
-                             r: this.orb.material.color.r,
-                            g: this.orb.material.color.g,
-                            b: this.orb.material.color.b
-                        });
-
         this.orb.material.color.setHex( colour );
+
+        return scale;
     }
 
     startAnimate() {

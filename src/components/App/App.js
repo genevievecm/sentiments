@@ -26,7 +26,6 @@ class App extends Component {
     }
 
     render() {
-        console.log('total score : ' + this.state.totalScore);
         return (
             <div className="App">
               <header className="header flex justify-center self-center">
