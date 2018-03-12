@@ -1,0 +1,141 @@
+.tooltip-wrapper {
+    position: relative;
+}
+
+.tooltip {
+    box-shadow: 2px 2px 8px #efefefef;
+    position: absolute;
+    background: white;
+    width: 60%;
+    padding: 20px;
+    top: -60px;
+    border-radius: 4px;
+    text-align: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    animation-name: slideUp;
+    -webkit-animation-name: slideUp;
+
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+
+    animation-timing-function: ease;
+    -webkit-animation-timing-function: ease;
+
+    visibility: visible !important;
+}
+
+.tooltip:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid white;
+    position: absolute;
+    bottom: -15px;
+    margin: auto;
+    left: 0;
+    right: 0;
+}
+
+/* http://www.justinaguilar.com/animations/ */
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+    }
+    50% {
+        transform: translateY(-8%);
+    }
+    65% {
+        transform: translateY(4%);
+    }
+    80% {
+        transform: translateY(-4%);
+    }
+    95% {
+        transform: translateY(2%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+@-webkit-keyframes slideUp {
+    0% {
+        -webkit-transform: translateY(100%);
+    }
+    50% {
+        -webkit-transform: translateY(-8%);
+    }
+    65% {
+        -webkit-transform: translateY(4%);
+    }
+    80% {
+        -webkit-transform: translateY(-4%);
+    }
+    95% {
+        -webkit-transform: translateY(2%);
+    }
+    100% {
+        -webkit-transform: translateY(0%);
+    }
+}
+
+.hide {
+    display: none;
+}
+
+.fade {
+    display: block;
+
+    animation-name: fadeAway;
+    -webkit-animation-name: fadeAway;
+
+    animation-duration: 0.75s;
+    -webkit-animation-duration: 0.75s;
+
+    animation-timing-function: ease;
+    -webkit-animation-timing-function: ease;
+}
+
+@keyframes fadeAway {
+    0% {
+        top: -60px;
+        opacity: 1;
+        display: block;
+    }
+    99% {
+        top: -120px;
+        opacity: 0;
+    }
+    100% {
+        display: none;
+    }
+}
+
+@-webkit-keyframes fadeAway {
+    0% {
+        top: -60px;
+        opacity: 1;
+    }
+    100% {
+        top: -120px;
+        opacity: 0;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .tooltip {
+        top: -90px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .tooltip-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+}
